@@ -2,6 +2,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -27,3 +28,35 @@ provider.setCustomParameters({
 export const auth = getAuth();
 //The provider user here. We will use this to redirect to google and signIn using those
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+
+//database singleton class for access
+export const db = getFirestore();
+
+export const createUserDoc = async (userAuth) => {
+  //doc(databaseIdentifier, Collection, DocumentIdentifier)
+  const userDocRef = doc(db, 'users', userAuth.uid);
+  console.log(userDocRef);
+
+  //Returns an object regardless of existence or not.
+  const userSnapshot = await getDoc(userDocRef);
+
+  //userSnapshot.exists() will return if exists or not, hence you can check if user exists or not
+  if (!userSnapshot.exists()) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      //set the document with the new user. Create the collection and user
+      await setDoc(userDocRef, {
+        displayName,
+        email,
+        createdAt,
+      });
+    } catch (error) {
+      console.log('Error creating user: ', error);
+    }
+  }
+
+  //if already exists, return userDocRef, if not, make and then return userDocRef
+  return userDocRef;
+};
