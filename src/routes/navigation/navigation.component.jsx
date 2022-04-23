@@ -18,6 +18,7 @@ const Navigation = () => {
             SIGN IN
           </Link>
           <Link to='' className='nav-link'></Link>
+          <Link to='' className='nav-link'></Link>
         </div>
       </div>
       <Outlet />
