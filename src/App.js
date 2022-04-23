@@ -1,10 +1,23 @@
 import { Route, Routes } from 'react-router-dom';
 import Home from './routes/home/home.component';
+import Navigation from './routes/navigation/navigation.component';
+
+const Shop = () => {
+  return (
+    <div>
+      <h1>I am the shop page</h1>
+    </div>
+  );
+};
 
 const App = () => {
   return (
     <Routes>
-      <Route path='/' index element={<Home />} />
+      <Route path='/' element={<Navigation />}>
+        {/*index denotes that that conponent/route will be displayed under the route ^^ if it matches  */}
+        <Route index element={<Home />} />
+        <Route path='shop' element={<Shop />} />
+      </Route>
     </Routes>
   );
 };
