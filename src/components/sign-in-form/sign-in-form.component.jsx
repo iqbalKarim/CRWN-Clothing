@@ -1,7 +1,5 @@
-import { useContext, useState } from 'react';
-import { UserContext } from '../../contexts/user.contexts';
+import { useState } from 'react';
 import {
-  createUserDoc,
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopup,
 } from '../../utils/firebase/firebase.utils';
@@ -18,14 +16,9 @@ const SigninForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
-  const { setCurrentUser } = useContext(UserContext);
-
   //use this func to use the Google signin
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    // eslint-disable-next-line no-unused-vars
-    await createUserDoc(user);
-    setCurrentUser(user);
+    await signInWithGooglePopup();
   };
 
   const resetFields = () => {
@@ -35,11 +28,7 @@ const SigninForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const { user } = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-      setCurrentUser(user);
+      await signInAuthUserWithEmailAndPassword(email, password);
       resetFields();
     } catch (error) {
       console.log(error);
