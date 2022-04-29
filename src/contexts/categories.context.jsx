@@ -2,20 +2,19 @@ import { createContext, useEffect, useState } from 'react';
 import { getCollectionAndDocuments } from '../utils/firebase/firebase.utils';
 
 //Actual value to access
-export const ProductsContext = createContext({
-  products: [],
+export const CategoriesContext = createContext({
+  categoriesMap: [],
 });
 
 //The provider for the data
-export const ProductsProvider = ({ children }) => {
+export const CategoriesProvider = ({ children }) => {
   //here is where you set the initial value of the context.
-  const [products, setProducts] = useState([]);
-  const value = { products };
+  const [categoriesMap, setCategoriesMap] = useState({});
 
   useEffect(() => {
     const getCategoryMap = async () => {
       const categoryMap = await getCollectionAndDocuments();
-      console.log(categoryMap);
+      setCategoriesMap(categoryMap);
     };
 
     getCategoryMap();
@@ -26,9 +25,10 @@ export const ProductsProvider = ({ children }) => {
   //   addCollectionAndDocuments('categories', SHOP_DATA);
   // }, []);
 
+  const value = { categoriesMap };
   return (
-    <ProductsContext.Provider value={value}>
+    <CategoriesContext.Provider value={value}>
       {children}
-    </ProductsContext.Provider>
+    </CategoriesContext.Provider>
   );
 };
