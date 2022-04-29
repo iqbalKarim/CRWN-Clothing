@@ -11,7 +11,7 @@ const App = () => {
       <Route path='/' element={<Navigation />}>
         {/*index denotes that that conponent/route will be displayed under the route ^^ if it matches  */}
         <Route index element={<Home />} />
-        <Route path='shop' element={<Shop />} />
+        <Route path='shop/*' element={<Shop />} />
         <Route path='auth' element={<Authentication />} />
         <Route path='checkout' element={<Checkout />} />
       </Route>
