@@ -1,4 +1,4 @@
-import { useContext } from 'react/cjs/react.development';
+import { useContext } from 'react';
 import CheckoutItem from '../../components/checkout-item/checkout-item.component';
 import { CartContext } from '../../contexts/cart.context';
 import {
